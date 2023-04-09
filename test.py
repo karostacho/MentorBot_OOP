@@ -7,8 +7,8 @@ students = Student.create_student_list_from_csv()
 def get_student_by_unique_id( id):
     students = Student.create_student_list_from_csv()
     for student in students:
-        if student == student.find_by_id(id):
-            print(student)
+        #if student == student.find_by_id(id):
+        print(student.find_by_id(id))
 
 def get_youngest_student_from_all_classes():
     students = Student.create_student_list_from_csv()
@@ -31,4 +31,4 @@ def calculate_average_grade_of_all_students():
     print(mean(list_of_grades))
 
 
-calculate_average_grade_of_all_students()
+get_student_by_unique_id("P9!x")

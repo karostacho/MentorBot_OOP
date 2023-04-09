@@ -18,8 +18,8 @@ class Student:
     def find_by_id(self, id):
         if self.id == id:
             return self
-        else:
-            self.displayer.inform_id_does_not_exist()
+        #else:
+            #self.displayer.inform_id_does_not_exist()
 
 
     def create_student_list_from_csv():     

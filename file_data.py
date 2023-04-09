@@ -7,13 +7,18 @@ from display import Displayer
 class CsvFile(DataSource):
     def __init__(self):
         self.students = Student.create_student_list_from_csv()
-        self.name = "csv_file"
         self.displayer = Displayer()
         
     def get_student_by_unique_id(self, id):
+        searched_id = None
         for student in self.students:
-            if student == student.find_by_id(id):
-                self.displayer.display(student)
+            if student.find_by_id(id):
+                searched_id = student
+                break
+        if searched_id:
+            self.displayer.display(student)
+        else:
+            self.displayer.inform_id_does_not_exist()
 
     def get_all_students_from_given_class(self):
         for student in self.students:

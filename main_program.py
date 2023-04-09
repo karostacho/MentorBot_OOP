@@ -19,7 +19,7 @@ class MainProgram():
             quit()
         if user_input == 1:
             student_id = self.displayer.ask_for_student_id()
-            self.csv_file.get_student_by_unique_id(self, student_id)
+            self.csv_file.get_student_by_unique_id(student_id)
             return self.run()  
         if user_input == 2:
             self.csv_file.get_all_students_from_given_class()
