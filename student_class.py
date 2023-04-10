@@ -1,5 +1,6 @@
 import csv
 from display import Displayer
+from tabulate import tabulate
 
 class Student:
     def __init__(self, id, name, surname, year_of_birth, class_type ,average_grade,average_presence):
@@ -13,15 +14,12 @@ class Student:
         self.displayer = Displayer()
 
     def __str__(self):
-        return (f"{self.name} {self.surname}")
+        return (f"\n{self.id} {self.name}, {self.surname}, {self.year_of_birth} ,{self.class_type}, {self.average_grade}, {self.average_presence},{self.average_presence}")
     
     def find_by_id(self, id):
         if self.id == id:
             return self
-        #else:
-            #self.displayer.inform_id_does_not_exist()
-
-
+    
     def create_student_list_from_csv():     
         with open ("class_data.csv") as file:
             class_data = csv.reader(file)

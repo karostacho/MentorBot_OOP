@@ -1,10 +1,12 @@
 from display import Displayer
 from file_data import CsvFile
+from db_data import SqlData
 
 class MainProgram():
     def __init__(self):
         self.displayer = Displayer()
         self.csv_file = CsvFile()
+        self.sql_data = SqlData()
 
     def run(self):
         user_input = self.displayer.show_menu()
@@ -19,7 +21,7 @@ class MainProgram():
             quit()
         if user_input == 1:
             student_id = self.displayer.ask_for_student_id()
-            self.csv_file.get_student_by_unique_id(student_id)
+            self.sql_data.get_student_by_unique_id(student_id)
             return self.run()  
         if user_input == 2:
             self.csv_file.get_all_students_from_given_class()

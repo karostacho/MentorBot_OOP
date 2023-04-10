@@ -1,45 +1,46 @@
-from connector_to_sql import connect_to_database
+from connector_to_sql import Connector
 from tabulate import tabulate
-
-cursor = connect_to_database()
-cursor.execute("SELECT * FROM class_data where class_type = 'B'")
-rows = cursor.fetchall()
-
 from data_source import DataSource
 from display import Displayer
 
 class SqlData(DataSource):
     def __init__(self):
-        self.cursor = connect_to_database()
+        self.connector = Connector()
         self.displayer = Displayer()
         
     def get_student_by_unique_id(self, id):
-        cursor.execute(f"SELECT * FROM class_data where id = '{id}'")
+        self.connector.execute_sql_query(f"SELECT * FROM class_data where id = '{id}'")
+        self.connector.print_students_table_from_db()
 
     def get_all_students_from_given_class(self, class_type):
-        cursor.execute(f"SELECT * FROM class_data where class_type = '{class_type}'")
-        
+        self.connector.execute_sql_query(f"SELECT * FROM class_data where class_type = '{class_type}'")
+        self.connector.print_students_table_from_db()
+
     def get_youngest_student_from_all_classes(self):
-        cursor.execute(f"SELECT * FROM class_data order by year_of_birth")
-        cursor.fetchone()
+        self.connector.execute_sql_query(f"SELECT * FROM class_data order by year_of_birth desc limit 1")
+        self.connector.print_students_table_from_db()
     
     def get_oldest_student_from_all_classes(self):
-        cursor.execute(f"SELECT * FROM class_data order by year_of_birth desc")
-        cursor.fetchone()
+        self.connector.execute_sql_query(f"SELECT * FROM class_data order by year_of_birth limit 1")
+        self.connector.print_students_table_from_db()
     
     def calculate_average_grade_of_all_students(self):
-        cursor.execute(f"select round(avg(average_grade),2)")
-    
+        self.connector.execute_sql_query(f"select round(avg(average_grade),2) as average_grade from class_data")
+        self.connector.print_students_table_from_db()
+
     def return_rounded_average_presence_of_all_students(self):
-        cursor.execute(f"select round(avg(average_presence),2)") 
-    
+        self.connector.execute_sql_query(f"select round(avg(average_presence),2) as average_presence from class_data") 
+        self.connector.print_students_table_from_db()
+
     def get_sorted_student_list_by_average_grade(self):
-        cursor.execute(f"SELECT * FROM class_data order by average_grade") 
+        self.connector.execute_sql_query(f"SELECT * FROM class_data order by average_grade") 
+        self.connector.print_students_table_from_db()
 
     def get_number_of_students_in_each_class(self):
-        cursor.execute(f"select class_type ,count(id) from class_data group by class_type") 
-        
-    def get_sorted_student_list_by_year_of_birth_and_then_by_surname(self):
-        cursor.execute(f"SELECT * FROM class_data order by year_of_birth, surname") 
+        self.connector.execute_sql_query(f"select class_type ,count(id) from class_data group by class_type") 
+        self.connector.print_students_table_from_db()
 
+    def get_sorted_student_list_by_year_of_birth_and_then_by_surname(self):
+        self.connector.execute_sql_query(f"SELECT * FROM class_data order by year_of_birth, surname") 
+        self.connector.print_students_table_from_db()
 
