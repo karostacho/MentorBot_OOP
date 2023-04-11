@@ -1,5 +1,4 @@
 from connector_to_sql import Connector
-from tabulate import tabulate
 from data_source import DataSource
 from display import Displayer
 
@@ -7,14 +6,26 @@ class SqlData(DataSource):
     def __init__(self):
         self.connector = Connector()
         self.displayer = Displayer()
-        
-    def get_student_by_unique_id(self, id):
-        self.connector.execute_sql_query(f"SELECT * FROM class_data where id = '{id}'")
-        self.connector.print_students_table_from_db()
 
-    def get_all_students_from_given_class(self, class_type):
-        self.connector.execute_sql_query(f"SELECT * FROM class_data where class_type = '{class_type}'")
-        self.connector.print_students_table_from_db()
+    def get_student_by_unique_id(self):
+        student_id = self.displayer.ask_for_student_id()
+        list_of_ids = self.connector.get_list_of_ids()
+        self.connector.execute_sql_query(f"SELECT id FROM class_data")
+        if student_id not in list_of_ids:
+            self.displayer.inform_about_invalid("student id")
+            self.get_student_by_unique_id()
+        else:
+            self.connector.execute_sql_query(f"SELECT * FROM class_data where id = '{student_id}'")
+            self.connector.print_students_table_from_db()
+
+    def get_all_students_from_given_class(self):
+        class_type = self.displayer.ask_for_class_type()
+        if class_type not in ["A", "a", "B", "b"]:
+            self.displayer.inform_about_invalid("class type")
+            self.get_all_students_from_given_class()
+        else:
+            self.connector.execute_sql_query(f"SELECT * FROM class_data where class_type = '{class_type}'")
+            self.connector.print_students_table_from_db()
 
     def get_youngest_student_from_all_classes(self):
         self.connector.execute_sql_query(f"SELECT * FROM class_data order by year_of_birth desc limit 1")

@@ -11,24 +11,23 @@ class Displayer:
     def inform_the_selection_is_invalid(self):
         self.display("\nInvalid selection. Please select a number 0-9\n")
 
+    def ask_for_class_type(self):
+        class_type = input(f"Class type, please\n")
+        return class_type.upper()
+      
     def ask_for_student_id(self):
-        student_id = input("Student id, please\n")
+        student_id = input(f"Student id, please\n")
         return student_id
-    
-    def ask_for_student_class_type(self):
-        class_type = input("Class Type, please\n")
-        return class_type
 
-    def inform_id_does_not_exist(self):
-        self.display("\nInvalid student ID\n")
+    def inform_about_invalid(self, selection):
+        self.display(f"\nInvalid {selection}\n")
 
     def inform_about_no_of_students(self,class_type, number):
         self.display(f"Number of students in class {class_type}: {number}")
 
-    def print_table(self, rows, headers):
-        table = tabulate(rows, headers)
-        self.display(table)
-
-
-
-    
+    def print_table(self, students_list):
+        table = []
+        for student in students_list:
+            table.append([student.id, student.name, student.surname, student.year_of_birth, student.class_type, student.average_grade,student.average_presence])
+        headers = ["id", "name", "surname", "year_of_birth", "class_type" ,"average_grade","average_presence"] 
+        print(tabulate(table, headers=headers, tablefmt="fancy_grid"))
