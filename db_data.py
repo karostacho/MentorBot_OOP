@@ -9,14 +9,8 @@ class SqlData(DataSource):
 
     def get_student_by_unique_id(self):
         student_id = self.displayer.ask_for_student_id()
-        list_of_ids = self.connector.get_list_of_ids()
-        self.connector.execute_sql_query(f"SELECT id FROM class_data")
-        if student_id not in list_of_ids:
-            self.displayer.inform_about_invalid("student id")
-            self.get_student_by_unique_id()
-        else:
-            self.connector.execute_sql_query(f"SELECT * FROM class_data where id = '{student_id}'")
-            self.connector.print_students_table_from_db()
+        self.connector.execute_sql_query(f"SELECT * FROM class_data where id = '{student_id}'")
+        self.connector.print_students_table_from_db()
 
     def get_all_students_from_given_class(self):
         class_type = self.displayer.ask_for_class_type()
@@ -36,11 +30,11 @@ class SqlData(DataSource):
         self.connector.print_students_table_from_db()
     
     def calculate_average_grade_of_all_students(self):
-        self.connector.execute_sql_query(f"select round(avg(average_grade),2) as average_grade from class_data")
+        self.connector.execute_sql_query(f"SELECT round(avg(average_grade),2) as average_grade FROM class_data")
         self.connector.print_students_table_from_db()
 
     def return_rounded_average_presence_of_all_students(self):
-        self.connector.execute_sql_query(f"select round(avg(average_presence),2) as average_presence from class_data") 
+        self.connector.execute_sql_query(f"SELECT round(avg(average_presence),2) as average_presence FROM class_data") 
         self.connector.print_students_table_from_db()
 
     def get_sorted_student_list_by_average_grade(self):
@@ -48,7 +42,7 @@ class SqlData(DataSource):
         self.connector.print_students_table_from_db()
 
     def get_number_of_students_in_each_class(self):
-        self.connector.execute_sql_query(f"select class_type ,count(id) from class_data group by class_type") 
+        self.connector.execute_sql_query(f"SELECT class_type ,count(id) FROM class_data group by class_type") 
         self.connector.print_students_table_from_db()
 
     def get_sorted_student_list_by_year_of_birth_and_then_by_surname(self):

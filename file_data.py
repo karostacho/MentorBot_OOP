@@ -1,4 +1,5 @@
 import collections
+import csv
 from statistics import mean
 from student_class import Student
 from data_source import DataSource
@@ -6,33 +7,41 @@ from display import Displayer
 
 class CsvFile(DataSource):
     def __init__(self):
-        self.students = Student.create_student_list_from_csv()
+        self.students = self.create_student_list_from_csv()
         self.displayer = Displayer()
+
+    def create_student_list_from_csv(self):     
+        with open ("class_data.csv") as file:
+            class_data = csv.reader(file)
+            students = []
+            for row in class_data:
+                id = row[0]
+                name = row[1]
+                surname = row[2]
+                year_of_birth = row[3]
+                class_type = row[4]
+                average_grade = row[5]
+                average_presence = row[6]
+
+                student = Student(id,name, surname, year_of_birth, class_type ,average_grade,average_presence)
+                students.append(student)
+            return students
         
     def get_student_by_unique_id(self):
-        list_of_ids = [student.id for student in self.students]
         student_id = self.displayer.ask_for_student_id()
-        if student_id not in list_of_ids:
-            self.displayer.inform_about_invalid("student id")
-            self.get_student_by_unique_id()
-        else:
-            students_list = []
-            for student in self.students:
-                if student.id == student_id:
-                    students_list.append(student)
-            self.displayer.print_table(students_list)
+        students_list = []
+        for student in self.students:
+            if student.id == student_id:
+                students_list.append(student)
+        return students_list
 
     def get_all_students_from_given_class(self):
         class_type = self.displayer.ask_for_class_type()
-        if class_type not in ["A", "a", "B", "b"]:
-            self.displayer.inform_about_invalid("class type")
-            self.get_all_students_from_given_class()
-        else:
-            students_list = []
-            for student in self.students:
-                if student.class_type == class_type:
-                    students_list.append(student)
-            self.displayer.print_table(students_list)
+        students_list = []
+        for student in self.students:
+            if student.class_type == class_type:
+                students_list.append(student)
+        return students_list
         
     def get_youngest_student_from_all_classes(self):
         list_of_years = [student.year_of_birth for student in self.students]
@@ -41,7 +50,7 @@ class CsvFile(DataSource):
         for student in self.students:
             if student.year_of_birth == year_of_younger_student:
                 students_list.append(student)
-        self.displayer.print_table(students_list)
+        return students_list
     
     def get_oldest_student_from_all_classes(self):
         list_of_years = [student.year_of_birth for student in self.students]
@@ -50,29 +59,29 @@ class CsvFile(DataSource):
         for student in self.students:
             if student.year_of_birth == year_of_younger_student:
                 students_list.append(student)
-        self.displayer.print_table(students_list)
+        return students_list
     
     def calculate_average_grade_of_all_students(self):
         list_of_grades = [student.average_grade for student in self.students]
         average_grade = mean(list_of_grades)
-        self.displayer.display(f"Average grade of all students: {average_grade}")
+        return average_grade
+        
     
     def return_rounded_average_presence_of_all_students(self):
         list_of_presence = [student.average_presence for student in self.students]
         average_presence = round(mean(list_of_presence),2)
-        self.displayer.display(f"Average presence of all students: {average_presence}") 
+        return average_presence
     
     def get_sorted_student_list_by_average_grade(self):
         students_sorted_by_grade = sorted(self.students, key=lambda student: student.average_grade)
-        self.displayer.print_table(students_sorted_by_grade)
+        return students_sorted_by_grade
 
     def get_number_of_students_in_each_class(self):
         list_of_classes = [student.class_type for student in self.students]
         number_of_students_in_classes = collections.Counter(list_of_classes)
-        for class_type, number in number_of_students_in_classes.items():
-            self.displayer.inform_about_no_of_students(class_type, number)
-        
+        return number_of_students_in_classes
+            
     def get_sorted_student_list_by_year_of_birth_and_then_by_surname(self):
         students_sorted_by_year = sorted(self.students, key=lambda student: student.year_of_birth)
         students_sorted_by_year_and_surname = sorted(students_sorted_by_year, key=lambda student: student.year_of_birth)
-        self.displayer.print_table(students_sorted_by_year_and_surname)
+        return students_sorted_by_year_and_surname

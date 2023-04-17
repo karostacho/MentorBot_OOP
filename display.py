@@ -1,4 +1,5 @@
 from tabulate import tabulate
+from connector_to_sql import Connector
 
 class Displayer:
     def show_menu(self):
@@ -30,4 +31,11 @@ class Displayer:
         for student in students_list:
             table.append([student.id, student.name, student.surname, student.year_of_birth, student.class_type, student.average_grade,student.average_presence])
         headers = ["id", "name", "surname", "year_of_birth", "class_type" ,"average_grade","average_presence"] 
-        print(tabulate(table, headers=headers, tablefmt="fancy_grid"))
+        self.display(tabulate(table, headers=headers, tablefmt="fancy_grid"))
+
+    def print_students_table_from_db(self, rows, headers):
+        rows = self.connector()
+        table = tabulate(rows, headers=headers, tablefmt= "fancy_grid")
+        self.display(table)
+
+    

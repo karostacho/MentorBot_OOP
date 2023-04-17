@@ -15,6 +15,14 @@ class Connector():
     def execute_sql_query(self, message):
         self.cursor.execute(message)
 
+    def get_rows_from_db(self):
+        rows = self.cursor.fetchall()
+        return rows
+    
+    def get_headers_from_db(self):
+        headers = [desc[0] for desc in self.cursor.description]
+        return headers
+
     def print_students_table_from_db(self):
         rows = self.cursor.fetchall()
         headers = [desc[0] for desc in self.cursor.description]
