@@ -20,11 +20,13 @@ class MainProgram():
         if user_input == 0:
             quit()
         if user_input == 1:
-            student_list = self.csv_file.get_student_by_unique_id()
+            student_id = self.displayer.ask_for_student_id()
+            student_list = self.csv_file.get_student_by_unique_id(student_id)
             self.displayer.print_table(student_list)
             return self.run()  
         if user_input == 2:
-            student_list = self.csv_file.get_all_students_from_given_class()
+            class_type = self.displayer.ask_for_class_type()
+            student_list = self.csv_file.get_all_students_from_given_class(class_type)
             self.displayer.print_table(student_list)
             return self.run() 
         if user_input == 3:

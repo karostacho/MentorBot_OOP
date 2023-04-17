@@ -3,12 +3,10 @@ import csv
 from statistics import mean
 from student_class import Student
 from data_source import DataSource
-from display import Displayer
 
 class CsvFile(DataSource):
     def __init__(self):
         self.students = self.create_student_list_from_csv()
-        self.displayer = Displayer()
 
     def create_student_list_from_csv(self):     
         with open ("class_data.csv") as file:
@@ -27,16 +25,14 @@ class CsvFile(DataSource):
                 students.append(student)
             return students
         
-    def get_student_by_unique_id(self):
-        student_id = self.displayer.ask_for_student_id()
+    def get_student_by_unique_id(self, student_id):
         students_list = []
         for student in self.students:
             if student.id == student_id:
                 students_list.append(student)
         return students_list
 
-    def get_all_students_from_given_class(self):
-        class_type = self.displayer.ask_for_class_type()
+    def get_all_students_from_given_class(self, class_type):
         students_list = []
         for student in self.students:
             if student.class_type == class_type:
@@ -66,7 +62,6 @@ class CsvFile(DataSource):
         average_grade = mean(list_of_grades)
         return average_grade
         
-    
     def return_rounded_average_presence_of_all_students(self):
         list_of_presence = [student.average_presence for student in self.students]
         average_presence = round(mean(list_of_presence),2)
