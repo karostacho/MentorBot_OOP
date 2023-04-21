@@ -1,5 +1,4 @@
 from tabulate import tabulate
-from connector_to_sql import Connector
 
 class Displayer:
     def show_menu(self):
@@ -23,19 +22,14 @@ class Displayer:
     def inform_about_invalid(self, selection):
         self.display(f"\nInvalid {selection}\n")
 
-    def inform_about_no_of_students(self,class_type, number):
-        self.display(f"Number of students in class {class_type}: {number}")
-
     def print_table(self, students_list):
-        table = []
+        rows = []
         for student in students_list:
-            table.append([student.id, student.name, student.surname, student.year_of_birth, student.class_type, student.average_grade,student.average_presence])
+            rows.append([student.id, student.name, student.surname, student.year_of_birth, student.class_type, student.average_grade,student.average_presence])
         headers = ["id", "name", "surname", "year_of_birth", "class_type" ,"average_grade","average_presence"] 
-        self.display(tabulate(table, headers=headers, tablefmt="fancy_grid"))
+        self.display(tabulate(rows, headers=headers, tablefmt="fancy_grid"))
 
-    def print_students_table_from_db(self, rows, headers):
-        rows = self.connector()
-        table = tabulate(rows, headers=headers, tablefmt= "fancy_grid")
-        self.display(table)
-
+    def print_from_dictionary(self, number_of_students_by_class):
+        for class_type, number in number_of_students_by_class.items():
+            self.display(f"Number of students in class {class_type}: {number}")
     

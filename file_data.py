@@ -6,24 +6,13 @@ from data_source import DataSource
 
 class CsvFile(DataSource):
     def __init__(self):
-        self.students = self.create_student_list_from_csv()
+        self.students = self.get_data_from_csv()
 
-    def create_student_list_from_csv(self):     
+    def get_data_from_csv(self):     
         with open ("class_data.csv") as file:
             class_data = csv.reader(file)
-            students = []
-            for row in class_data:
-                id = row[0]
-                name = row[1]
-                surname = row[2]
-                year_of_birth = row[3]
-                class_type = row[4]
-                average_grade = row[5]
-                average_presence = row[6]
-
-                student = Student(id,name, surname, year_of_birth, class_type ,average_grade,average_presence)
-                students.append(student)
-            return students
+            student_list = Student.create_student_list(class_data)
+            return student_list
         
     def get_student_by_unique_id(self, student_id):
         students_list = []
