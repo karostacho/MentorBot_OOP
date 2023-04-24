@@ -1,34 +1,49 @@
+import psycopg2
+import getpass
+from tabulate import tabulate
 from student_class import Student
-import collections
-from statistics import mean
+from db_data import SqlData
 
-students = Student.create_student_list_from_csv()
-
-def get_student_by_unique_id( id):
-    students = Student.create_student_list_from_csv()
-    for student in students:
-        if student == student.find_by_id(id):
-            print(student)
-
-def get_youngest_student_from_all_classes():
-    students = Student.create_student_list_from_csv()
-    list_of_years = [student.year_of_birth for student in students]
-    print(max(list_of_years))
-
-def get_sorted_student_list_by_average_grade():
-    students = Student.create_student_list_from_csv()
-    students_sorted_by_grade = sorted(students, key=lambda student: student.average_grade)
-    return students_sorted_by_grade
-        
-def get_number_of_students_in_each_class():
-    list_of_classes = [student.class_type for student in students]
-    number_of_students_in_classes = collections.Counter(list_of_classes)
-    for class_type, number in number_of_students_in_classes.items():
-        print(f"Number of people in class {class_type}: {number}")
-
-def calculate_average_grade_of_all_students():
-    list_of_grades = [student.average_grade for student in students]
-    print(mean(list_of_grades))
+def connect_to_database():
+        password = getpass.getpass(prompt='Enter the database password: ')
+        conn = psycopg2.connect(dbname="mentor_bot", user="postgres", password = password)
+        cursor = conn.cursor()
+        return cursor
+    
+def execute_sql_query(message):
+    cursor = connect_to_database()
+    cursor.execute(message)
+    return cursor.fetchall()
 
 
-calculate_average_grade_of_all_students()
+def print_table(students_list):
+        rows = []
+        for student in students_list:
+            rows.append([student.id, student.name, student.surname, student.year_of_birth, student.class_type, student.average_grade,student.average_presence])
+        headers = ["id", "name", "surname", "year_of_birth", "class_type" ,"average_grade","average_presence"] 
+        print(tabulate(rows, headers=headers, tablefmt="fancy_grid"))
+
+def create_list(tuples):
+    students = []
+    for row in tuples:
+        id = row[0]
+        name = row[1]
+        surname = row[2]
+        year_of_birth = row[3]
+        class_type = row[4]
+        average_grade = row[5]
+        average_presence = row[6]
+
+        student = Student(id,name, surname, year_of_birth, class_type ,average_grade,average_presence)
+        students.append(student)
+    print(students)
+
+
+tuples = execute_sql_query(f"SELECT class_type ,count(id) FROM class_data group by class_type")
+
+resultDictionary = dict((x, y) for x, y in tuples)
+     
+print (resultDictionary)
+
+
+
