@@ -23,4 +23,3 @@ class Student:
             student = Student(id,name, surname, year_of_birth, class_type ,average_grade,average_presence)
             students.append(student)
         return students
-

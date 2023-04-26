@@ -8,12 +8,16 @@ class CsvFile(DataSource):
     def __init__(self):
         self.students = self.get_data_from_csv()
 
-    def get_data_from_csv(self):     
-        with open ("class_data.csv") as file:
-            class_data = csv.reader(file)
-            student_list = Student.create_student_list(class_data)
-            return student_list
-        
+    def get_data_from_csv(self):
+        try:     
+            with open ("class_data.csv") as file:
+                class_data = csv.reader(file)
+                student_list = Student.create_student_list(class_data)
+                return student_list
+        except Exception as exception:
+            print (exception)
+            quit()
+
     def get_student_by_unique_id(self, student_id):
         students_list = []
         for student in self.students:

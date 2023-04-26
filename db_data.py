@@ -1,12 +1,10 @@
 from connector_to_sql import Connector
 from data_source import DataSource
-from display import Displayer
 from student_class import Student
 
 class SqlData(DataSource):
     def __init__(self):
         self.connector = Connector()
-        self.displayer = Displayer()
 
     def map_to_student_list(self, db_data):
         student_list = Student.create_student_list(db_data)
