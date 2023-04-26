@@ -17,6 +17,10 @@ class Connector():
 
     
     def execute_sql_query(self, message):
-        self.cursor.execute(message)
-        return self.cursor.fetchall()
+        try:
+            self.cursor.execute(message)
+            return self.cursor.fetchall()
+        except psycopg2.errors.UndefinedColumn as error:
+            print(error)
+            quit()
     

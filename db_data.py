@@ -11,7 +11,7 @@ class SqlData(DataSource):
         return student_list
 
     def get_student_by_unique_id(self, student_id):
-        db_data = self.connector.execute_sql_query(f"SELECT * FROM class_data where id = '{student_id}'")
+        db_data = self.connector.execute_sql_query(f"SELECT * FROM class_data where ids = '{student_id}'")
         student_list = self.map_to_student_list(db_data)
         return student_list
 
