@@ -5,8 +5,8 @@ from db_data import SqlData
 class MainProgram():
     def __init__(self):
         self.displayer = Displayer()
-        #self.data_source = CsvFile()
-        self.data_source = SqlData()
+        self.data_source = CsvFile()
+        #self.data_source = SqlData()
 
     def run(self):
         user_input = self.displayer.show_menu()

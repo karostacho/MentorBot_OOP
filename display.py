@@ -26,8 +26,11 @@ class Displayer:
         rows = []
         for student in students_list:
             rows.append([student.id, student.name, student.surname, student.year_of_birth, student.class_type, student.average_grade,student.average_presence])
-        headers = ["id", "name", "surname", "year_of_birth", "class_type" ,"average_grade","average_presence"] 
-        self.display(tabulate(rows, headers=headers, tablefmt="fancy_grid"))
+        if not students_list:
+            self.display("No results match your search criteria")
+        else:
+            headers = ["id", "name", "surname", "year_of_birth", "class_type" ,"average_grade","average_presence"] 
+            self.display(tabulate(rows, headers=headers, tablefmt="fancy_grid"))
 
     def print_from_dictionary(self, number_of_students_by_class):
         for class_type, number in number_of_students_by_class.items():
