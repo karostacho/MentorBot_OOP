@@ -1,12 +1,12 @@
-from display import Displayer
-from file_data import CsvFile
-from db_data import SqlData
+from displayer import Displayer
+from csv_data import CsvData
+from sql_data import SqlData
 
 class MainProgram():
     def __init__(self):
         self.displayer = Displayer()
-        #self.data_source = CsvFile()
-        self.data_source = SqlData()
+        self.data_source = CsvData()
+        #self.data_source = SqlData()
 
     def run(self):
         user_input = self.displayer.show_menu()
@@ -61,5 +61,6 @@ class MainProgram():
             self.displayer.inform_the_selection_is_invalid()
             return self.run() 
         
+
 mentor_bot = MainProgram()
 mentor_bot.run()

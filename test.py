@@ -1,8 +1,8 @@
 import psycopg2
 import getpass
 from tabulate import tabulate
-from student_class import Student
-from db_data import SqlData
+from student import Student
+from sql_data import SqlData
 
 def connect_to_database():
         password = getpass.getpass(prompt='Enter the database password: ')

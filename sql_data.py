@@ -1,12 +1,10 @@
-from connector_to_sql import Connector
+from connector import Connector
 from data_source import DataSource
-from display import Displayer
-from student_class import Student
+from student import Student
 
 class SqlData(DataSource):
     def __init__(self):
         self.connector = Connector()
-        self.displayer = Displayer()
 
     def map_to_student_list(self, db_data):
         student_list = Student.create_student_list(db_data)
@@ -56,4 +54,3 @@ class SqlData(DataSource):
         db_data = self.connector.execute_sql_query(f"SELECT * FROM class_data order by year_of_birth, surname") 
         student_list = self.map_to_student_list(db_data)
         return student_list
-
