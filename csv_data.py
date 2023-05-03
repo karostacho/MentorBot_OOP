@@ -1,21 +1,24 @@
 import collections
 import csv
 from statistics import mean
-from student_class import Student
+from student import Student
 from data_source import DataSource
+from logger import Logger
 
-class CsvFile(DataSource):
+class CsvData(DataSource):
     def __init__(self):
-        self.students = self.get_data_from_csv()
+        self.logger = Logger()
+        self.students = self.get_data_from_csv() 
 
     def get_data_from_csv(self):
         try:     
             with open ("class_data.csv") as file:
                 class_data = csv.reader(file)
                 student_list = Student.create_student_list(class_data)
+                self.logger.log_message("Student list loaded successfully")
                 return student_list
-        except Exception as exception:
-            print (exception)
+        except FileNotFoundError as error:
+            self.logger.log_error(error,"File not found")
             quit()
 
     def get_student_by_unique_id(self, student_id):
@@ -31,24 +34,25 @@ class CsvFile(DataSource):
             if student.class_type == class_type:
                 students_list.append(student)
         return students_list
+
+    def get_student_born_in(self, year_of_student):
+        students_list = []
+        for student in self.students:
+            if student.year_of_birth == year_of_student:
+                students_list.append(student)
+        return students_list
         
     def get_youngest_student_from_all_classes(self):
         list_of_years = [student.year_of_birth for student in self.students]
-        year_of_younger_student = (max(list_of_years))
-        students_list = []
-        for student in self.students:
-            if student.year_of_birth == year_of_younger_student:
-                students_list.append(student)
-        return students_list
+        year_of_youngest_student = (max(list_of_years))
+        searched_student = self.get_student_born_in(year_of_youngest_student)
+        return searched_student
     
     def get_oldest_student_from_all_classes(self):
         list_of_years = [student.year_of_birth for student in self.students]
-        year_of_younger_student = (min(list_of_years))
-        students_list = []
-        for student in self.students:
-            if student.year_of_birth == year_of_younger_student:
-                students_list.append(student)
-        return students_list
+        year_of_oldest_student = (min(list_of_years))
+        searched_student = self.get_student_born_in(year_of_oldest_student)
+        return searched_student
     
     def calculate_average_grade_of_all_students(self):
         list_of_grades = [student.average_grade for student in self.students]
@@ -57,7 +61,7 @@ class CsvFile(DataSource):
         
     def return_rounded_average_presence_of_all_students(self):
         list_of_presence = [student.average_presence for student in self.students]
-        average_presence = round(mean(list_of_presence),2)
+        average_presence = round(mean(list_of_presence), 2)
         return average_presence
     
     def get_sorted_student_list_by_average_grade(self):
@@ -71,5 +75,5 @@ class CsvFile(DataSource):
             
     def get_sorted_student_list_by_year_of_birth_and_then_by_surname(self):
         students_sorted_by_year = sorted(self.students, key=lambda student: student.year_of_birth)
-        students_sorted_by_year_and_surname = sorted(students_sorted_by_year, key=lambda student: student.year_of_birth)
+        students_sorted_by_year_and_surname = sorted(students_sorted_by_year, key=lambda student: student.surname)
         return students_sorted_by_year_and_surname

@@ -1,6 +1,6 @@
-from connector_to_sql import Connector
+from connector import Connector
 from data_source import DataSource
-from student_class import Student
+from student import Student
 
 class SqlData(DataSource):
     def __init__(self):
@@ -11,7 +11,7 @@ class SqlData(DataSource):
         return student_list
 
     def get_student_by_unique_id(self, student_id):
-        db_data = self.connector.execute_sql_query(f"SELECT * FROM class_data where ids = '{student_id}'")
+        db_data = self.connector.execute_sql_query(f"SELECT * FROM class_data where id = '{student_id}'")
         student_list = self.map_to_student_list(db_data)
         return student_list
 
@@ -54,4 +54,3 @@ class SqlData(DataSource):
         db_data = self.connector.execute_sql_query(f"SELECT * FROM class_data order by year_of_birth, surname") 
         student_list = self.map_to_student_list(db_data)
         return student_list
-

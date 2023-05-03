@@ -1,0 +1,14 @@
+2023-05-03 14:54:58.985906 [Errno 2] No such file or directory: 'class_datas.csv'2023-05-03 14:57:52.303282 [Errno 2] No such file or directory: 'class_datas.csv'2023-05-03 14:58:11.462440 [Errno 2] No such file or directory: 'class_datas.csv'
+
+2023-05-03 14:59:16.169393 [Errno 2] No such file or directory: 'class_datas.csv'
+2023-05-03 14:59:44.206569 Student list loaded successfully
+2023-05-03 15:07:08.478238 Student list loaded successfully
+2023-05-03 15:07:33.236673 Student list loaded successfully
+2023-05-03 15:10:26.574693 Student list loaded successfully
+2023-05-03 15:16:02.544849 Student list loaded successfully
+2023-05-03 15:16:08.242992 Student list loaded successfully
+2023-05-03 15:16:17.663317 [Errno 2] No such file or directory: 'class_datas.csv'
+2023-05-03 15:17:52.639968 [Errno 2] No such file or directory: 'class_datas.csv'
+2023-05-03 15:18:04.320455 Student list loaded successfully
+2023-05-03 15:22:54.278271 Student list loaded successfully
+2023-05-03 15:26:16.995955 Connected to database succesfully

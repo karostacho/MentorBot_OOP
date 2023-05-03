@@ -1,11 +1,11 @@
-from display import Displayer
-from file_data import CsvFile
-from db_data import SqlData
+from displayer import Displayer
+from csv_data import CsvData
+from sql_data import SqlData
 
 class MainProgram():
     def __init__(self):
         self.displayer = Displayer()
-        self.data_source = CsvFile()
+        self.data_source = CsvData()
         #self.data_source = SqlData()
 
     def run(self):
